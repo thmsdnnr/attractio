@@ -1,139 +1,66 @@
 window.onload = function() {
-const authors=[
-    "Adam Lindsay Gordon",
-    "Alan Seeger",
-    "Alexander Pope",
-    "Algernon Charles Swinburne",
-    "Ambrose Bierce",
-    "Amy Levy",
-    "Andrew Marvell",
-    "Ann Taylor",
-    "Anne Bradstreet",
-    "Anne Bronte",
-    "Anne Killigrew",
-    "Anne Kingsmill Finch",
-    "Annie Louisa Walker",
-    "Arthur Hugh Clough",
-    "Ben Jonson",
-    "Charles Kingsley",
-    "Charles Sorley",
-    "Charlotte Bronte",
-    "Charlotte Smith",
-    "Christina Rossetti",
-    "Christopher Marlowe",
-    "Christopher Smart",
-    "Coventry Patmore",
-    "Edgar Allan Poe",
-    "Edmund Spenser",
-    "Edward Fitzgerald",
-    "Edward Lear",
-    "Edward Taylor",
-    "Edward Thomas",
-    "Eliza Cook",
-    "Elizabeth Barrett Browning",
-    "Emily Bronte",
-    "Emily Dickinson",
-    "Emma Lazarus",
-    "Ernest Dowson",
-    "Eugene Field",
-    "Francis Thompson",
-    "Geoffrey Chaucer",
-    "George Eliot",
-    "George Gordon, Lord Byron",
-    "George Herbert",
-    "George Meredith",
-    "Gerard Manley Hopkins",
-    "Helen Hunt Jackson",
-    "Henry David Thoreau",
-    "Henry Vaughan",
-    "Henry Wadsworth Longfellow",
-    "Hugh Henry Brackenridge",
-    "Isaac Watts",
-    "James Henry Leigh Hunt",
-    "James Thomson",
-    "James Whitcomb Riley",
-    "Jane Austen",
-    "Jane Taylor",
-    "John Clare",
-    "John Donne",
-    "John Dryden",
-    "John Greenleaf Whittier",
-    "John Keats",
-    "John McCrae",
-    "John Milton",
-    "John Trumbull",
-    "John Wilmot",
-    "Jonathan Swift",
-    "Joseph Warton",
-    "Joyce Kilmer",
-    "Julia Ward Howe",
-    "Jupiter Hammon",
-    "Katherine Philips",
-    "Lady Mary Chudleigh",
-    "Lewis Carroll",
-    "Lord Alfred Tennyson",
-    "Louisa May Alcott",
-    "Major Henry Livingston, Jr.",
-    "Mark Twain",
-    "Mary Elizabeth Coleridge",
-    "Matthew Arnold",
-    "Matthew Prior",
-    "Michael Drayton",
-    "Oliver Goldsmith",
-    "Oliver Wendell Holmes",
-    "Oscar Wilde",
-    "Paul Laurence Dunbar",
-    "Percy Bysshe Shelley",
-    "Philip Freneau",
-    "Phillis Wheatley",
-    "Ralph Waldo Emerson",
-    "Richard Crashaw",
-    "Richard Lovelace",
-    "Robert Browning",
-    "Robert Burns",
-    "Robert Herrick",
-    "Robert Louis Stevenson",
-    "Robert Southey",
-    "Robinson",
-    "Rupert Brooke",
-    "Samuel Coleridge",
-    "Samuel Johnson",
-    "Sarah Flower Adams",
-    "Sidney Lanier",
-    "Sir John Suckling",
-    "Sir Philip Sidney",
-    "Sir Thomas Wyatt",
-    "Sir Walter Raleigh",
-    "Sir Walter Scott",
-    "Stephen Crane",
-    "Thomas Campbell",
-    "Thomas Chatterton",
-    "Thomas Flatman",
-    "Thomas Gray",
-    "Thomas Hood",
-    "Thomas Moore",
-    "Thomas Warton",
-    "Walt Whitman",
-    "Walter Savage Landor",
-    "Wilfred Owen",
-    "William Allingham",
-    "William Barnes",
-    "William Blake",
-    "William Browne",
-    "William Cowper",
-    "William Cullen Bryant",
-    "William Ernest Henley",
-    "William Lisle Bowles",
-    "William Morris",
-    "William Shakespeare",
-    "William Topaz McGonagall",
-    "William Vaughn Moody",
-    "William Wordsworth"
-  ];
-  let G = {WIDTH:600, HEIGHT: 700, PADDING: 40};
-  G.positions={};
-  let fridge=document.querySelector('div#fridge');
+  const authors=["Adam Lindsay Gordon","Alan Seeger","Alexander Pope","Algernon Charles Swinburne","Ambrose Bierce","Amy Levy","Andrew Marvell","Ann Taylor","Anne Bradstreet","Anne Bronte","Anne Killigrew","Anne Kingsmill Finch","Annie Louisa Walker","Arthur Hugh Clough","Ben Jonson","Charles Kingsley","Charles Sorley","Charlotte Bronte","Charlotte Smith","Christina Rossetti","Christopher Marlowe","Christopher Smart","Coventry Patmore","Edgar Allan Poe","Edmund Spenser","Edward Fitzgerald","Edward Lear","Edward Taylor","Edward Thomas","Eliza Cook","Elizabeth Barrett Browning","Emily Bronte","Emily Dickinson","Emma Lazarus","Ernest Dowson","Eugene Field","Francis Thompson","Geoffrey Chaucer","George Eliot","George Gordon, Lord Byron","George Herbert","George Meredith","Gerard Manley Hopkins","Helen Hunt Jackson","Henry David Thoreau","Henry Vaughan","Henry Wadsworth Longfellow","Hugh Henry Brackenridge","Isaac Watts","James Henry Leigh Hunt","James Thomson","James Whitcomb Riley","Jane Austen","Jane Taylor","John Clare","John Donne","John Dryden","John Greenleaf Whittier","John Keats","John McCrae","John Milton","John Trumbull","John Wilmot","Jonathan Swift","Joseph Warton","Joyce Kilmer","Julia Ward Howe","Jupiter Hammon","Katherine Philips","Lady Mary Chudleigh","Lewis Carroll","Lord Alfred Tennyson","Louisa May Alcott","Major Henry Livingston, Jr.","Mark Twain","Mary Elizabeth Coleridge","Matthew Arnold","Matthew Prior","Michael Drayton","Oliver Goldsmith","Oliver Wendell Holmes","Oscar Wilde","Paul Laurence Dunbar","Percy Bysshe Shelley","Philip Freneau","Phillis Wheatley","Ralph Waldo Emerson","Richard Crashaw","Richard Lovelace","Robert Browning","Robert Burns","Robert Herrick","Robert Louis Stevenson","Robert Southey","Robinson","Rupert Brooke","Samuel Coleridge","Samuel Johnson","Sarah Flower Adams","Sidney Lanier","Sir John Suckling","Sir Philip Sidney","Sir Thomas Wyatt","Sir Walter Raleigh","Sir Walter Scott","Stephen Crane","Thomas Campbell","Thomas Chatterton","Thomas Flatman","Thomas Gray","Thomas Hood","Thomas Moore","Thomas Warton","Walt Whitman","Walter Savage Landor","Wilfred Owen","William Allingham","William Barnes","William Blake","William Browne","William Cowper","William Cullen Bryant","William Ernest Henley","William Lisle Bowles","William Morris","William Shakespeare","William Topaz McGonagall","William Vaughn Moody","William Wordsworth"];
   const words="abattu,abature,abatures,abaxial,abaxile,abaya,abayas,abb,abba,abbacies,abbacy,abbas,abbatial,abbe,abbed,abbes,abbess,abbesses,abbey,abbeys,abbot,abbotcies,abbotcy,abbots,abbotship,abbotships,abbreviate,abbreviated,abbreviates,abbreviating,abbreviation,abbreviations,abbreviator,abbreviators,abbreviatory,abbreviature,abbreviatures,abbs,abcee,abcees,abcoulomb,abcoulombs".split(",");
+
+  let G = {WIDTH:600, HEIGHT: 700, PADDING: 40};
+  G.positions={}; //dictionary of word positions by id
+  G.frozenWords={}; //dictionary of unmodifiable word by id
+  G.moving=null; //current moving element
+  G.divCtr=0;
+  let fridge=document.querySelector('div#fridge');
+
+  function sockets() {
+    // var host = window.location.origin.replace(/^http/, 'ws');
+    G.socket = new WebSocket('ws://localhost:8080');
+    G.socket.addEventListener('open', (event) => {
+      G.socket.send(JSON.stringify({action:'newClient'}));
+    });
+    G.socket.addEventListener('message', (event) => {
+      event=JSON.parse(event.data);
+      switch(event.action) {
+        case 'newWord': addWord(event.word); break;
+        case 'modify': modifyWord({id:event.elementID, update:event.update}); break;
+        case 'delete': deleteElement({id:event.elementID}); break;
+        case 'moving': moveElement({id:event.elementID, dx:event.dx, dy:event.dy}); break;
+        case 'freeze':
+          console.log(event);
+          outlineWord(event.elementID, event.color, event.clientName);
+          G.frozenWords[event.elementID]=true;
+          break;
+        case 'unfreeze':
+          restoreOutline(event.elementID);
+          delete G.frozenWords[event.elementID];
+          break;
+        default: console.log('new ws msg',event); break;
+      }
+    });
+  }
+
+  function outlineWord(id, color, cName) {
+    let ele=document.getElementById(id);
+    ele.style.border=`3px dotted ${color}`;
+    let nameDiv=document.createElement('div');
+    nameDiv.innerHTML=cName;
+    nameDiv.classList.add('client-name');
+    ele.appendChild(nameDiv);
+  }
+
+  function restoreOutline(id) {
+    let ele=document.getElementById(id);
+    ele.style.border=`1px solid black`;
+    let cName=ele.querySelector('.client-name');
+    ele.removeChild(cName);
+  }
+
+  function moveElement(d) {
+    console.log(d);
+    //{id:event.elementID, dx:event.dx, dy:event.dy}); break;
+    let e=document.getElementById(d.id);
+    let dim=e.getBoundingClientRect();
+    e.dataset.x=Number(e.dataset.x)+d.dx;
+    e.dataset.y=Number(e.dataset.y)+d.dy;
+    e.style.transform='translate(' + e.dataset.x + 'px, ' + e.dataset.y + 'px)';
+  }
 
   // target elements with the "draggable" class
   function setInteractions() {
@@ -205,7 +132,17 @@ const authors=[
     }
 
     function dragMoveListener (event) {
+      if (G.frozenWords[event.target.id]) { return false; }
+      if (G.moving!==event.target.id) {
+          G.moving=event.target.id;
+          G.socket.send(JSON.stringify({action:'freeze', elementID:event.target.id}));
+      }
       event.stopPropagation();
+      (debounce(function(event) {
+        if(event.dx!==0||event.dy!==0) {
+          G.socket.send(JSON.stringify({action:'moving', elementID:event.target.id, dx: event.dx, dy:event.dy}));
+        }
+      },100))(event);
       var target = event.target,
           // keep the dragged position in the data-x/data-y attributes
           x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
@@ -241,8 +178,29 @@ const authors=[
       console.log(elevate.style.zIndex)
     }
 
+    // Returns a function, that, as long as it continues to be invoked, will not
+    // be triggered. The function will be called after it stops being called for
+    // N milliseconds. If `immediate` is passed, trigger the function on the
+    // leading edge, instead of the trailing.
+    debounce = function(func, wait, immediate) {
+    	var timeout;
+    	return function() {
+    		var context = this, args = arguments;
+    		var later = function() {
+    			timeout = null;
+    			if (!immediate) func.apply(context, args);
+    		};
+    		var callNow = immediate && !timeout;
+    		clearTimeout(timeout);
+    		timeout = setTimeout(later, wait);
+    		if (callNow) func.apply(context, args);
+    	};
+    };
+
     function dragEndListener (event) {
+      G.moving=null;
       event.stopPropagation();
+      G.socket.send(JSON.stringify({action:'unfreeze', elementID:event.target.id}));
       event.target.style.backgroundColor = 'white';
       event.target.style.color = 'black';
       let lastZ=Number(event.target.style.zIndex);
@@ -259,6 +217,7 @@ const authors=[
       console.log(collidingRects);
       if (collidingRects.length) { liftDivUp(event.target, collidingRects); }
       console.log(collidingRects.map(e=>e.innerHTML));
+      G.socket.send(JSON.stringify({action:'moveEnd', elementID:event.target.id, finalX:thisPos.x, finalY:thisPos.y }));
     }
 
     window.dragMoveListener = dragMoveListener;
@@ -268,7 +227,15 @@ const authors=[
       document.getElementById(w).addEventListener('dblclick', handleModify);
     }
 
+    function modifyWord(data) {
+      let ele=document.getElementById(data.id);
+      let update=data.update;
+      ele.innerHTML=update.innerHTML;
+    }
+
     function handleModify(e) {
+      if (G.frozenWords[e.target.id]) { return false; }
+      G.socket.send(JSON.stringify({action:'freeze', elementID:e.target.id}));
       let word=e.target.innerHTML;
       let eleWidth=e.target.getBoundingClientRect().width;
       e.target.innerHTML='';
@@ -278,7 +245,7 @@ const authors=[
       e.target.appendChild(I);
       I.focus();
       I.classList.add('newWord');
-      I.id=e.target.id+'_modify';
+      // I.id=e.target.id+'_modify';
       I.style.width=eleWidth;
       e.target.style.zIndex=1;
       e.target.style.backgroundColor = 'white';
@@ -289,15 +256,30 @@ const authors=[
       I.addEventListener('blur', (inputE) => {
         if (I.value.length) {
           e.target.innerHTML=I.value;
-        } else { fridge.removeChild(e.target); }
+          G.socket.send(JSON.stringify({action:'modify', elementID:e.target.id, update:{innerHTML:I.value}}));
+          G.socket.send(JSON.stringify({action:'unfreeze', elementID:e.target.id}));
+        }
+        else {
+          handleDelete({shiftKey:true, target:e.target});
+        }
       });
+    }
+
+    function deleteElement(target) {
+      console.log(target);
+      let ele = (target.id) ? document.getElementById(target.id) : target.domElement;
+      let id = (target.id) ? target.id : target.domElement.id;
+      if (ele) {
+        ele.removeEventListener('click', handleDelete);
+        fridge.removeChild(ele);
+      }
+      delete G.positions[id];
     }
 
     function handleDelete(e) {
       if (e.shiftKey) {
-        e.target.removeEventListener('click', handleDelete);
-        fridge.removeChild(e.target);
-        delete G.positions[e.target.id];
+        G.socket.send(JSON.stringify({action:'delete', elementID:e.target.id}));
+        deleteElement({domElement:e.target});
       }
     }
 
@@ -323,7 +305,8 @@ const authors=[
     words.forEach((w,idx)=>{
       let d=document.createElement('div');
       d.innerHTML=w;
-      d.id='div-'+idx;
+      d.id='div-'+G.divCtr;
+      G.divCtr++;
       fridge.appendChild(d);
       if (idx!==0) { cX=G.positions[lastID].right-XPAD; }
       if (cX>G.WIDTH-INNERPAD) {
@@ -418,46 +401,44 @@ const authors=[
   document.querySelector('button#newWord').addEventListener('click', ()=>addNewWord({wSource:'list'}));
   document.querySelector('form#newWord').addEventListener('submit', addNewWord);
 
-  function addNewWord(e) {
-    let newWord;
+  function addWord(word) {
     let numWords=document.querySelectorAll('div.word').length;
+    let d=document.createElement('div');
+    d.innerHTML=word;
+    console.log('addword',numWords);
+    d.id='div-'+G.divCtr;
+    G.divCtr++;
+    d.dataset.x=0;
+    d.dataset.y=0;
+    d.style.transform ='translate(' + d.dataset.x+ 'px, ' + d.dataset.y + 'px)';
+    d.classList.add('word');
+    d.classList.add('draggable');
+    fridge.appendChild(d);
+    d.style.zIndex=1;
+    d.style.backgroundColor='white';
+    addWordListener(d.id);
+    G.positions[d.id]=d.getBoundingClientRect();
+    setInteractions();
+  }
+
+  function addNewWord(e) {
+    console.log(e);
+    e.preventDefault();
     if (!e.wSource) {
-      e.preventDefault();
-      newWord=document.querySelector('input#newWord');
+      let newWord=document.querySelector('input#newWord');
       if (newWord.value.length) {
-        let d=document.createElement('div');
-        d.innerHTML=newWord.value;
-        d.id='div-'+numWords;
-        d.dataset.x=0;
-        d.dataset.y=0;
-        d.style.transform ='translate(' + d.dataset.x+ 'px, ' + d.dataset.y + 'px)';
-        d.classList.add('word');
-        d.classList.add('draggable');
-        fridge.appendChild(d);
-        d.style.zIndex=1;
-        d.style.backgroundColor='white';
-        addWordListener(d.id);
+        addWord(newWord.value);
+        G.socket.send(JSON.stringify({action:'newWord', word:newWord.value}));
         newWord.value='';
         newWord.blur();
       }
     }
     else if (G.words) {
-      newWord=G.words.shift()[1];
-      let d=document.createElement('div');
-      d.innerHTML=newWord;
-      d.id='div-'+numWords;
-      d.dataset.x=0;
-      d.dataset.y=0;
-      d.style.transform ='translate(' + d.dataset.x+ 'px, ' + d.dataset.y + 'px)';
-      d.classList.add('word');
-      d.classList.add('draggable');
-      d.style.backgroundColor='white';
-      d.style.zIndex=1;
-      fridge.appendChild(d);
-      addWordListener(d.id);
+      let W=G.words.shift()[1];
+      addWord(W);
+      G.socket.send(JSON.stringify({action:'newWord', word:W}));
     }
-  else { return false; }
-    setInteractions();
+    else { return false; }
   }
 
   function poetSelect(e) {
@@ -477,6 +458,7 @@ const authors=[
 
   populateRandomWords(words);
   populateSelector();
+  sockets();
   // fetchLines('Walt Whitman');
   // listenToWords();
 }

@@ -41,6 +41,19 @@ div.word {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
+div.client-name {
+  position: fixed;
+  top: -10;
+  left: -5;
+  display: inline;
+  width: auto;
+  font-size: 12px;
+  padding: 2px;
+  background-color: white;
+  color: black;
+  border: 1px solid gold;
+}
+
 div#newF {
   display: flex;
   flex-flow: row wrap;
