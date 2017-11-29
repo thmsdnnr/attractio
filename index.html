@@ -1,23 +1,33 @@
 <html>
 <head>
   <title>fridgemags</title>
-  <link rel="stylesheet" type="text/css" href="./style.css">
-  <script src="./vendor/interact.min.js"></script>
-  <script src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+  <script src="/static/interact.min.js"></script>
+  <script src="/static/script.js"></script>
 </head>
 <body>
-  <div id="fridge">fridge</div>
-  hi
-  <button id="save">Save</button>
-  <button id="load">Load</button>
-  <button id="newWord">New Word</button>
-  <button id="poemify">poemify</button>
-
-  <form id="newWord">
-    <input type="text" id="newWord" placeholder="add new word">
-  </form>
-  <form id="poetWords">
-    <select id="poet"></select>
+  <div id="fridge"></div>
+  <div id="toolbar">
+    <button id="save">Save</button>
+    <button id="load">Load</button>
+    <button id="newWord">New Word</button>
+    <button id="poemify">poemify</button>
+    <form id="newWord">
+      <input type="text" id="newWord" placeholder="add new word">
+    </form>
+    <form id="poetWords">
+      <select id="poet"></select>
+    </form>
+  </div>
+  <form id="wordSubmit">
+    <textarea rows="20" cols="60" id="text"></textarea>
+    <select id="delimiter">
+      <option id="space" default>space</option>
+      <option id="comma">comma</option>
+      <option id="newline">newline</option>
+      <option id="tab">tab</option>
+    </select>
+    <button id="submit">submit</button>
   </form>
 </body>
 </html>
