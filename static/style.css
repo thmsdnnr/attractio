@@ -51,7 +51,43 @@ table {
 
 body {
   font-size: 20px;
+	background-color: black;
 	font-family: 'Inconsolata', monospace;
+	background: #232526;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+div#modalBackground {
+	display: inline;
+	position: absolute;
+	top: 0;
+	opacity: 1;
+	width: 100%;
+	height: 100%;
+	-webkit-filter: blur(15px);
+ -o-filter: blur(15px);
+ filter: blur(15px);
+ filter: progid: DXImageTransform.Microsoft.Blur(PixelRadius='15');
+ background: #076585;  /* fallback for old browsers */
+ background: -webkit-linear-gradient(to bottom, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+ background: linear-gradient(to bottom, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+div.wordGrab-modal {
+	transition: 1s opacity ease-in;
+}
+
+div.poemify-modal {
+	transition: 200ms opacity bounce;
+}
+
+button.tingle-modal__close {
+	outline: none;
+}
+
+button.tingle-modal__close:hover {
+	color: tomato;
 }
 
 input.newWord {
@@ -61,36 +97,90 @@ input.newWord {
   width: auto;
 }
 
+div#container {
+	display: none;
+	flex: auto;
+	border: 1px solid white;
+	width: auto;
+	margin: 10px auto;
+}
+
 div#toolbar {
-	font-size: 12px;
+	font-size: 16px;
   position: absolute;
-  top: 0px;
-  left: 4px;
+  top: 10px;
+  left: 20px;
   display: flex;
-  flex-flow: row wrap;
-  width: 600px;
+	align-items: flex-start;
+	justify-content: space-around;
+  flex-flow: column wrap;
+  width: 840px;
   height: 48px;
   background-color: white;
-  border: 1px solid black;
+	padding: 10px;
+}
+
+span#BRAND {
+	color: red;
+	font-size: 2em;
+	font-family: 'Courier New';
 }
 
 div#toolbar button, input, select{
 	font-family: 'Inconsolata', monospace;
-
-	font-size: 14px;
+	font-size: 16px;
+	outline: none;
 	flex: 0 1 auto;
+	justify-content: center;
+	align-items: center;
+}
+
+div#wordSubmit button, input, select, textArea {
+	font-family: 'Inconsolata', monospace;
+	flex: 0 1 auto;
+	outline: none;
+	padding: 4px;
+	font-size: 16px;
+}
+
+#wordSubmit h1 {
+	font-size: 1.4em;
 }
 
 div#fridge {
-	overflow-y: scroll;
   display: fixed;
-  margin-top: 48px;
-  margin-left: 4px;
+	background-color: white;
+  margin-top: 64px;
+  margin-left: 40px;
   width: 800px;
   height: 700px;
   border: 1px solid green;
   z-index: -999;
   user-select: none;
+}
+
+.noSelect {
+	user-select: none;
+	-moz-user-select: text;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+textarea#newWords {
+	width: 100%;
+	resize: none;
+	padding: 2px;
+}
+
+textarea#newWords:focus {
+	outline-color: gold;
+}
+
+.tingle-btn--full-width {
+	display: block;
+	float: none;
+	margin-bottom: 1rem;
+	width: 100%;
 }
 
 div.word {
@@ -105,11 +195,7 @@ div.word {
   align-items: center;
   padding: 5px;
   margin: 5px;
-  user-select: none;
   box-shadow: 0 1px 8px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-div.word:hover {
 }
 
 div.client-name {

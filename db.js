@@ -42,6 +42,9 @@ word list:
 
 /*Word Lists*/
 exports.saveRoom = function(D, cb) {
+  if (!D.data) {
+    cb('THERE IS NO DATA BEING SENT', null);
+  }
   db.collection("rooms").update({room:D.room}, {room:D.room, data:D.data, createdOn: new Date()}, {upsert:true},
   function(err, data) { cb(err, data); });
 }

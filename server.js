@@ -41,100 +41,99 @@ let clientNames={};
 let rooms={}; //map of roomID to an array of clientIDs joined to room
 
 app.get('/t/:p', function(req,res) {
-  console.log(req.params.p);
-  // res.end(JSON.stringify({msg:'done'}));
+  if (req.params.p.match(/[^a-z0-9]/gi)) {
+    res.end('Hey, sorry but you can only use numbers 0-9 and letters A-Z in a room name (along with hyphens). Try again?');
+  } else {
   res.sendFile(path.join(__dirname+'/index.html'));
+  }
 });
 
 wss.broadcast = function broadcast(data, room, sendingClient) { //TODO "rooms" based on word sets
-  rooms[room].forEach(function(clientID) {
-    if (clientID!==sendingClient) {
-      let client=clients[clientID];
-      if (client&&client.readyState===client.OPEN) { client.send(data); }
-      else {
-        //client ID is stale, remove from rooms
-        console.log('clean id', rooms, rooms[room]);
-        rooms[room] = remove(rooms[room],clientID);
-        console.log('clean id', clientID);
+  if (rooms[room]!==undefined) {
+    rooms[room].forEach(function(clientID) {
+      if (clientID!==sendingClient) {
+        let client=clients[clientID];
+        if (client&&client.readyState===client.OPEN) { client.sendMsg(data); }
+        else { //client ID is stale, remove from rooms
+          rooms[room] = remove(rooms[room],clientID);
+        }
       }
-    }
-  });
+    });
+  }
 };
 
 wss.on('connection', function connection(client) {
   clientID++;
-  let CUID=clientID;//client._ultron.id;
+  let CUID=clientID;
   clients[clientID]=client;
-  // clients.push({id:clientID, client:client, room:room});
-  console.log('new connection client: ',CUID);
   clientColors[CUID]=randomRGB();
   clientNames[CUID]=randomString(CUID);
   if (client.readyState===client.OPEN) {
+    client.sendMsg = function(message) {
+      console.log('server sent msg to client', message, CUID);
+      let payload=JSON.stringify(message);
+      client.send(payload);
+    };
     client.on('message', function incoming(message) {
-      if (message) {
-        message=JSON.parse(message);
-        console.log(message);
-      }
-      if (!['hydrate','newClient','freeze','moving'].includes(message.action)) {
+      console.log('server received message from client', message);
+      //TODO buggy as hell
+      if (message) { message=JSON.parse(message); }
+      if (!['hydrate','newClient','freeze','moving','stateUpdate'].includes(message.action)) {
+        console.log('the message', message);
         Db.saveRoom({room:message.room, data:message.data}, function(err, data) {
-          console.log(data.result,'saveroom');
+          console.log('saved room with data');
         });
       }
       switch(message.action) {
         case 'stateUpdate':
-          console.log('serverstateupdate msg data',message.data);
           if (!message.data.length) { break; }
           else {
-            wss.broadcast(JSON.stringify({action:'hydrate',data:message.data}),message.room, CUID);
+            wss.broadcast({action:'hydrate',data:message.data},message.room, CUID);
             Db.saveRoom({room:message.room, data:message.data}, function(err, data) {
-            console.log(data.result,'saveroom');
-          });
-        }
-          // console.log(message);
-          break;
+              console.log('saved room with data');
+            });
+          }
+        break;
+        case 'emptyRoom':
+          //client sent back message that there are no words in the room, so we reset the room
+          console.log('empty room');
+          client.sendMsg({action:'newRoom'});
+        break;
         case 'newClient':
-          //see if room name exists in the dB
-          //if so, push room data
-          //else don't.
-          client._CURRENT_ROOM=message.room;
+          //see if room name exists in the dB 1) if so, push room data 2) else don't.
+          client._CURRENT_ROOM=message.room; //TODO requesting current state from client vs saving in Db directly
           if (rooms[message.room]&&rooms[message.room].length) { //request room state from current client and update Db
-            console.log('m',rooms[message.room])
-            wss.broadcast(JSON.stringify({action:'requestCurrentState'}), message.room, null); //TODO request from most recent client with an action
+            console.log('request state from client');
+            //TODO get away from requesting from client or, if you do, only ask from a good and current client
+            wss.broadcast({action:'requestCurrentState'}, message.room, null); //TODO request from most recent client with an action
           }
           else { //no one in the room, get last state from Db
+            console.log('get last state from db');
             Db.loadRoom(message.room, function(err, data) {
-              console.log(err);
-              console.log('load room');
-                if (data.length) {
-                  data=data[0];
-                  client.send(JSON.stringify({action:'hydrate',data:data}));
-                } else { //new room entirely make client owner
-                  client.send(JSON.stringify({action:'newRoom'}));
+              console.log(data);
+                if (data.length&&data[0].data) {
+                  client.sendMsg({action:'hydrate',data:data[0].data});
+                } else { //new room entirely, make client owner
+                  client.sendMsg({action:'newRoom'});
                 }
             });
           }
           //add client to room
           rooms[message.room] ? rooms[message.room].push(clientID) : rooms[message.room]=[clientID];
-          client.send(JSON.stringify({msg:'oheythere', id:clientID}));
+          client.sendMsg({msg:'oheythere', id:clientID});
           break;
-        case 'moving': wss.broadcast(JSON.stringify(message),message.room,CUID); break;
-        case 'freeze':
-          wss.broadcast(
-            JSON.stringify(
-              Object.assign(message,{clientName:clientNames[CUID], color:clientColors[CUID]})),
-              message.room, CUID
-            ); break;
-        case 'unfreeze': wss.broadcast(JSON.stringify(message),message.room,CUID); break;
-        case 'delete': wss.broadcast(JSON.stringify(message),message.room,CUID); break;
-        default: wss.broadcast(JSON.stringify(message),message.room,CUID); break;
+        case 'moving': wss.broadcast(message,message.room,CUID); break;
+        case 'freeze': wss.broadcast(Object.assign(message,{clientName:clientNames[CUID], color:clientColors[CUID]}),message.room, CUID); break;
+        case 'unfreeze': wss.broadcast(message,message.room,CUID); break;
+        case 'delete': wss.broadcast(message,message.room,CUID); break;
+        default: wss.broadcast(message,message.room,CUID); break;
       }
     });
   }
   client.on('close', function close() {
-  		 console.log(CUID,"DISCONNECTED");
-       console.log('room',rooms[client._CURRENT_ROOM]);
-       rooms[client._CURRENT_ROOM]=remove(rooms[client._CURRENT_ROOM],CUID);
-       console.log('room',rooms[client._CURRENT_ROOM]);
+       if (client._CURRENT_ROOM && rooms[client._CURRENT_ROOM]) {
+         rooms[client._CURRENT_ROOM]=remove(rooms[client._CURRENT_ROOM],CUID);
+       }
        delete clients[CUID];
   	});
 });
