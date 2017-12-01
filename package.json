@@ -1,5 +1,5 @@
 {
-  "name": "@ttractio",
+  "name": "attractio",
   "version": "1.0.0",
   "description": "collaborative poetry on le web!",
   "main": "script.js",
