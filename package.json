@@ -1,5 +1,5 @@
 {
-  "name": "@ttractio",
+  "name": "attractio",
   "version": "1.0.0",
   "description": "collaborative poetry on le web!",
   "main": "script.js",
@@ -14,5 +14,8 @@
     "express": "^4.16.2",
     "http": "0.0.0",
     "ws": "^3.3.2"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
   }
 }

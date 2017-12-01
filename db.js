@@ -1,6 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
 let db;
-let W;
 let dbUrl=process.env.PROD_DB||'mongodb://localhost:27017/';
 
 function connect(callback) {
