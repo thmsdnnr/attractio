@@ -4,7 +4,7 @@
   "description": "collaborative poetry on le web!",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js"
   },
   "author": "",
@@ -16,6 +16,7 @@
     "ws": "^3.3.2"
   },
   "devDependencies": {
-    "jest": "^21.2.1"
+    "jest": "^21.2.1",
+    "rewire": "^3.0.2"
   }
 }

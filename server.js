@@ -33,7 +33,10 @@ function randomString(idx) {
   return rArr(ADJS)+" "+rArr(ANIMALS);
 }
 
-const remove = (arr, ele) => arr.filter(e=>e!==ele);
+const remove = (arr, ele) => {
+  if (!(arr&&Array.isArray(arr))||(!(ele&&Number.isInteger(ele)))) { return null; }
+  return arr.indexOf(ele)!==-1 ? arr.filter(e=>e!==ele) : null;
+}
 const promote = (arr, ele) => {
   if (!arr||!ele) { return false; }
   if (arr.length===1) { return arr; }
