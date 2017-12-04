@@ -4,8 +4,10 @@
   "description": "collaborative poetry on le web!",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "jest --verbose",
+    "start": "node server.js",
+    "dev": "concurrently \"mongod --dbpath=./data\" \"nodemon server.js\"",
+    "dev-fresh": "rm -r ./data && mkdir data && concurrently \"mongod --dbpath=./data\" \"nodemon server.js\""
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +16,9 @@
     "express": "^4.16.2",
     "http": "0.0.0",
     "ws": "^3.3.2"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1",
+    "rewire": "^3.0.2"
   }
 }
