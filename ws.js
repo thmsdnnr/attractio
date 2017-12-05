@@ -3,26 +3,23 @@ const dQueries=require('./db.rooms.js');
 const UTILS=require('./utils.js');
 
 exports.initServer = (server, dbCon) => {
+  const dbActionsToIgnore=['emptyRoom','newClient','lapsedClient','freeze','moving'];
   const Db=dQueries(dbCon);
-
-  let wss;
   let clientID=0;
-  let clients={}; //map of clientID to WS Client Object
-  let clientColors={};
-  let clientNames={};
+  let clients={}; //map of clientID to WS Client Object, Client Name, and Client Color
   let rooms={}; //map of roomID to an array of clientIDs joined to room
 
   const sendPrivateMessage = (msg, recClient) => {
-    let C=clients[recClient];
+    let C=clients[recClient].obj;
     if (C) { C.sendMsg(msg); }
     else { return false; }
   };
-  
-  wss=new WebSocket.Server({server: server});
+
+  let wss=new WebSocket.Server({server: server});
   wss.broadcast = function broadcast(data, room, sendingClient) {
     rooms[room].forEach(function(clientID) {
       if (clientID!==sendingClient) {
-        let client=clients[clientID];
+        let client=clients[clientID].obj;
         if (client&&client.readyState===client.OPEN) { client.sendMsg(data); }
         else { //client ID is stale, remove from rooms
           rooms[room] = remove(rooms[room],clientID);
@@ -34,9 +31,7 @@ exports.initServer = (server, dbCon) => {
   wss.on('connection', function connection(client) {
     clientID++;
     let CUID=clientID;
-    clients[clientID]=client;
-    clientColors[CUID]=UTILS.randomRGB();
-    clientNames[CUID]=UTILS.randomString(CUID);
+    clients[clientID]={obj: client, color:UTILS.randomRGB(), name:UTILS.randomString(CUID)};
     if (client.readyState===client.OPEN) {
       client.sendMsg = function(message) { //Server Message Bus
         // console.log('server sent msg to client', JSON.stringify(message).slice(0,100), CUID);
@@ -52,8 +47,9 @@ exports.initServer = (server, dbCon) => {
           rooms[R]=UTILS.promote(rooms[R], CUID);
         }
         // console.log('server received message from client', JSON.stringify(message).slice(0,100));
-        if (!['hydrate','newClient','freeze','moving','stateUpdate'].includes(message.action)) {
+        if (!dbActionsToIgnore.includes(message.action)) {
           Db.saveRoom({room:message.room, data:message.data}, function(err, data) {
+            ;
           });
         }
         switch(message.action) {
@@ -113,7 +109,7 @@ exports.initServer = (server, dbCon) => {
             client.sendMsg({msg:'Hello New Client', id:clientID});
             break;
           case 'moving': wss.broadcast(message,message.room,CUID); break;
-          case 'freeze': wss.broadcast(Object.assign(message,{clientName:clientNames[CUID], color:clientColors[CUID]}),message.room, CUID); break;
+          case 'freeze': wss.broadcast(Object.assign(message,{clientName:clients[CUID].name, color:clients[CUID].color}),message.room, CUID); break;
           case 'unfreeze': wss.broadcast(message,message.room,CUID); break;
           case 'delete': wss.broadcast(message,message.room,CUID); break;
           default: wss.broadcast(message,message.room,CUID); break;
