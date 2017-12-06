@@ -1,3 +1,10 @@
+import tingle from '../static/vendor/tingle.min.js';
+import interact from '../static/vendor/interact.min.js';
+
+import attStyle from '../static/style.css';
+import usage from '../static/usage.css';
+import tingleStyle from '../static/vendor/tingle.min.css';
+
 window.twttr = (function(d, s, id) {
 var js, fjs = d.getElementsByTagName(s)[0],
   t = window.twttr || {};
@@ -33,7 +40,7 @@ return t;
   let fridge=document.querySelector('div#fridge');
 
   // debounce from Underscore.js
-  debounce = function(func, wait, immediate) {
+  var debounce = function(func, wait, immediate) {
     var timeout;
     return function() {
       var context = this, args = arguments;

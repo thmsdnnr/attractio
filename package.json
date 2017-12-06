@@ -4,6 +4,7 @@
   "description": "collaborative poetry on le web!",
   "main": "script.js",
   "scripts": {
+    "build": "npx webpack --config webpack.config.js",
     "test": "jest --verbose",
     "start": "node server.js",
     "dev": "concurrently \"mongod --dbpath=./data\" \"nodemon server.js\"",
@@ -18,7 +19,13 @@
     "ws": "^3.3.2"
   },
   "devDependencies": {
+    "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.2",
     "jest": "^21.2.1",
-    "rewire": "^3.0.2"
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "rewire": "^3.0.2",
+    "style-loader": "^0.19.0",
+    "uglifyjs-webpack-plugin": "^1.1.2",
+    "webpack": "^3.10.0"
   }
 }
