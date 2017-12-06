@@ -6,7 +6,7 @@ exports.initServer = (server, dbCon) => {
   const dbActionsToIgnore=['emptyRoom','newClient','lapsedClient','freeze','moving'];
   const Db=dQueries(dbCon);
   let clientID=0;
-  let clients={}; //map of clientID to WS Client Object
+  let clients={}; //map of clientID to WS Client Object, Client Name, and Client Color
   let rooms={}; //map of roomID to an array of clientIDs joined to room
 
   const sendPrivateMessage = (msg, recClient) => {
@@ -70,6 +70,7 @@ exports.initServer = (server, dbCon) => {
         // console.log('server received message from client', JSON.stringify(message).slice(0,100));
         if (!dbActionsToIgnore.includes(message.action)) {
           Db.saveRoom({room:message.room, data:message.data}, function(err, data) {
+            ;
           });
         }
         switch(message.action) {

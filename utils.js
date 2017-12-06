@@ -11,7 +11,7 @@ const rIn = () => Math.floor(Math.random()*255);
 const rArr = (arr) => arr[Math.floor(Math.random()*(arr.length-1))];
 const randomURL = () =>rArr(ADJS)+"-"+rArr(URL_ADJS)+"-"+rArr(ANIMALS);
 const randomRGB = () => `rgba(${rIn()},${rIn()},${rIn()},1.0)`
-const randomString = (idx) =>rArr(ADJS)+" "+rArr(ANIMALS);
+const randomString = () => rArr(ADJS)+" "+rArr(ANIMALS);
 const remove = (arr, ele) => {
   if (!(arr&&Array.isArray(arr))||(!(ele&&Number.isInteger(ele)))) { return null; }
   return arr.indexOf(ele)!==-1 ? arr.filter(e=>e!==ele) : arr;
