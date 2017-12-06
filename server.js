@@ -10,7 +10,7 @@ const app=express();
 const appPORT=process.env.PORT || 8080;
 const server=http.createServer(app);
 
-app.use('/static',express.static(path.join(__dirname,'/static')));
+app.use('/dist/static',express.static(path.join(__dirname,'/dist/static')));
 
 Db.connect((err,db)=>{
   if (err) {

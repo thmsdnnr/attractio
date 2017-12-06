@@ -1,4 +1,5 @@
 # Attractio
+[![Build Status](https://travis-ci.org/thmsdnnr/attractio.svg?branch=addWebpack)](https://travis-ci.org/thmsdnnr/attractio)
 ## 'tis a trove of magnetic delight for you and your friends to enjoy
 
 New boards can be made with new word sets in real-time, either by pasting in desired words, or by using a [PoetryDb](http://poetrydb.org/index.html) API call. Clients are synced between rooms using WebSockets.
