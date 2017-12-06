@@ -28,10 +28,32 @@ exports.initServer = (server, dbCon) => {
     });
   };
 
+  function heartbeat() { this.isAlive = true; }
+  const interval = setInterval(function ping() {
+    Object.keys(clients).forEach(function each(clientID) {
+      let client = clients[clientID];
+      let cObj=client.obj;
+      if (cObj.isAlive === false) { terminateClient(client); }
+      cObj.isAlive=false;
+      cObj.ping('', false, true);
+      });
+    }, UTILS.$.wsPingInterval);
+
+  function terminateClient(client) {
+    let cObj=client.obj;
+    let CUID=client.id;
+    cObj.terminate();
+    let R=cObj._CURRENT_ROOM;
+    if (R && rooms[R]) { rooms[R]=UTILS.remove(rooms[R],CUID); }
+    delete clients[CUID];
+  }
+
   wss.on('connection', function connection(client) {
+    client.isAlive = true;
+    client.on('pong', heartbeat.bind(client));
     clientID++;
     let CUID=clientID;
-    clients[clientID]={obj: client, color:UTILS.randomRGB(), name:UTILS.randomString(CUID)};
+    clients[clientID]={obj: client, color:UTILS.randomRGB(), name:UTILS.randomString(CUID), id:clientID};
     if (client.readyState===client.OPEN) {
       client.sendMsg = function(message) { //Server Message Bus
         // console.log('server sent msg to client', JSON.stringify(message).slice(0,100), CUID);
@@ -39,7 +61,6 @@ exports.initServer = (server, dbCon) => {
         client.send(payload);
       };
       client.on('message', function incoming(message) {
-        //when we receive a message from a client, put them at the beginning of the clients array for that room.
         if (!message) { return false; }
         message=JSON.parse(message);
         if (client._CURRENT_ROOM&&message.data) {
@@ -71,36 +92,13 @@ exports.initServer = (server, dbCon) => {
                 let urls=[UTILS.randomURL(), UTILS.randomURL(), UTILS.randomURL()];
                 client.sendMsg({action:'roomFull', data:urls}); return false;
               }
-              /*We request the state from the client with the most recent activity in the room
-              that also has data: we Promote the client ID to the front of a queue each action */
               sendPrivateMessage({action:'requestCurrentState'},rooms[R][0]);
-              //TODO need to have a thing to do in case no response is given: setTimeout to dB call or call next up client
             }
             else { //no one in the room, get last state from Db
               Db.loadRoom(message.room, function(err, data) {
                   if (data.length&&data[0].data) {
                     client.sendMsg({action:'hydrate',data:data[0].data});
                   } else { //new room entirely
-                    client.sendMsg({action:'newRoom'});
-                  }
-              });
-            }
-            //add client to room
-            rooms[R] = rooms[R] ? rooms[R].concat(CUID) : [CUID];
-            client.sendMsg({msg:'Hello New Client', id:clientID});
-            break;
-          case 'lapsedClient':
-            // console.log('lapsed client'); //TODO better lapsed client handling
-            client._CURRENT_ROOM=R;
-            if (rooms[R]&&rooms[R].length) {
-              sendPrivateMessage({action:'requestCurrentState'},rooms[R][0]);
-              //TODO need to have a thing to do in case no response is given
-            }
-            else { //no one in the room, get last state from Db
-              Db.loadRoom(message.room, function(err, data) {
-                  if (data.length&&data[0].data) {
-                    client.sendMsg({action:'hydrate',data:data[0].data});
-                  } else { //new room entirely, make client owner
                     client.sendMsg({action:'newRoom'});
                   }
               });
@@ -116,10 +114,6 @@ exports.initServer = (server, dbCon) => {
         }
       });
     }
-    client.on('close', function close() {
-      let R=client._CURRENT_ROOM;
-         if (R && rooms[R]) { rooms[R]=UTILS.remove(rooms[R],CUID); }
-         delete clients[CUID];
-    	});
+    client.on('close', function close() { terminateClient(clients[CUID]); });
   });
 }

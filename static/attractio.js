@@ -184,8 +184,8 @@ return t;
       }
       else { //need to recover connection
         if (G.reconnectAttempts<5) {
+          console.log('recovering connection');
           G.socket = new WebSocket(host);
-          G.socket.send(JSON.stringify({action:'lapsedClient'}));
         }
         G.reconnectAttempts++;
       }
@@ -228,7 +228,7 @@ return t;
         case 'newWord': receiveWordDiv(event); break;
         case 'modify': modifyWord({id:event.elementID, update:event.update}); break;
         case 'delete': deleteElement({id:event.elementID}); break;
-        case 'moving': moveElement({id:event.elementID, dx:event.dx, dy:event.dy}); break;
+        case 'moving': moveElement({elementID:event.elementID, dx:event.dx, dy:event.dy}); break;
         case 'moveEnd':
           elevateElement(document.getElementById(event.elementID));
         break;
@@ -263,7 +263,7 @@ return t;
   }
 
   function moveElement(d) {
-    let e=document.getElementById(d.id);
+    let e=document.getElementById(d.elementID);
     let dim=e.getBoundingClientRect();
     e.dataset.x=Number(e.dataset.x)+d.dx;
     e.dataset.y=Number(e.dataset.y)+d.dy;
@@ -387,6 +387,7 @@ return t;
       let eleWidth=e.target.getBoundingClientRect().width;
       e.target.innerHTML='';
       let I=document.createElement('input');
+      I.spellCheck=false;
       I.value=word;
       I.type='text';
       I.maxLength=20;

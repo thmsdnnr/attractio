@@ -1,3 +1,7 @@
+const $={
+  wsPingInterval:15000 //ms
+};
+
 const ADJS=["divine","elegant","classy","winning","winsome","comely","luring","pretty","radiant","siren","angelic","sublime","refined","lovable","darling","magical","sweet"];;
 const ANIMALS=["zebra","cat","gazelle","raccoon","yak","otter","hyena","puma"];
 const URL_ADJS=["elastic","elated","elfin","elite","enchanted","endurable","exuberant","exultant","fabulous","fearless","fierce","hallowed","immense","jazzy","lavish","luxuriant","lyrical","melodic","nimble","oceanic","optimal","placid","quirky","sassy","savory","spiffy","swanky","ultra"];
@@ -19,4 +23,4 @@ const promote = (arr, ele) => {
   return (idx!==-1) ? [ele].concat(arr.slice(0,idx),arr.slice(idx+1)) : arr;
 }
 
-module.exports = { randHex, rIn, rArr, randomURL, randomRGB, randomString, remove, promote};
+module.exports = { $, randHex, rIn, rArr, randomURL, randomRGB, randomString, remove, promote};
